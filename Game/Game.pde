@@ -6,7 +6,7 @@ boolean wDown=false;
 boolean sDown=false;
 boolean spaceDown=false;
 void setup() {
-  size(640, 360, P3D);
+  size(1280, 720, P3D);
 }
 
 void draw() {
