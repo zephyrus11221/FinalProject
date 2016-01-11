@@ -14,13 +14,13 @@ void draw() {
   float rotx = (-mouseY/1440.0)*-2*PI+PI;
   float roty = (-mouseX/1440.0)*2*PI-PI;
   float rotz = 0*PI/36;
-  //camera(mouseX, mouseY, (height/2) / tan(PI/6)+z, width/2, height/2, 0, 0, 1, 0);
-  translate(0, 0,-1000);
+  camera(mouseX+x, mouseY+y, (height/2) / tan(PI/6), x+width/2, y+  height/2, z, 0, 1, 0);
+  translate(0, 0,-1000-z);
   strokeWeight(4);
  
  Arena arena=new Arena();
  arena.display();
- if(aDown==true&&x>-width/2+50){
+ if(aDown==true&&x>-width/2+50){ 
    x-=2;
  }
  if(dDown==true&&x<width/2-50){
@@ -52,7 +52,7 @@ void draw() {
   
   Player player=new Player();
   player.display();
-  noFill(); 
+   
 }
 void keyPressed(){
   if(key=='a'){
