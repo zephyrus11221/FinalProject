@@ -9,27 +9,30 @@ boolean aDown=false;
 boolean wDown=false;
 boolean sDown=false;
 boolean spaceDown=false;
+
 Camera camera1;
 
 
 void setup() {
   size(1280, 720, P3D);
   camera1 = new Camera(this,
-       750, (height/2), width/2,
-       x+width/2, y+height/2, z);
+      mouseX+x, mouseY+y, (height/2) / tan(PI/6), 
+      0,0,0
+      
+       );
 }
 
 
 
 void draw() {
   background(0);
-  camera1.feed();
+       camera1.feed();
   float rotx = (mouseY/100.0);
   float roty = (mouseX/100.0);
   float rotz = 0*PI/36;
 // camera(mouseX+x, mouseY+y, (height/2) / tan(PI/6), x+width/2, y+  height/2, z, 0, 1, 0);
   
-  translate(0, 0,-1000-z);
+  translate(-width-x, -height-y,-1000-z);
   strokeWeight(4);
 //  rotateY(rotate);
  Arena arena=new Arena();
@@ -67,6 +70,7 @@ void draw() {
    y=0;
    spaceDown=false;
  }
+
   rotateX(rotx);  
   rotateY(roty);  
   rotateZ(rotz);
