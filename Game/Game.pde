@@ -2,8 +2,8 @@ import damkjer.ocd.*;
 
 float x,y,z,g,rotate;
 
-boolean ADown=false;
-boolean DDown=false;
+boolean qDown=false;
+boolean eDown=false;
 boolean dDown=false;
 boolean aDown=false;
 boolean wDown=false;
@@ -16,8 +16,8 @@ Camera camera1;
 void setup() {
   size(1280, 720, P3D);
   camera1 = new Camera(this,
-      mouseX+x, mouseY+y, (height/2) / tan(PI/6), 
-      0,0,0
+      0, -300, 500, 
+      0,-200,0
       
        );
 }
@@ -37,18 +37,18 @@ void draw() {
 //  rotateY(rotate);
  Arena arena=new Arena();
  arena.display();
- if(ADown==true&&x>-width+50){ 
+ if(aDown==true&&x>-width+50){ 
    x-=8;
  }
- if(DDown==true&&x<width-50){
+ if(dDown==true&&x<width-50){
    x+=8;
  }
-/* if(aDown==true){ 
-   rotate-= PI/180;
+ if(qDown==true){ 
+   camera1.circle(PI/100);
  }
- if(dDown==true){
-   rotate+=PI/180;
- }*/
+ if(eDown==true){
+   camera1.circle(-PI/100);
+ }
  if(wDown==true&&z>-1000+50){
    z-=8;
  }
@@ -80,17 +80,17 @@ void draw() {
    
 }
 void keyPressed(){
-  if(key=='A'){
-    ADown=true;
-  }
   if(key=='a'){
     aDown=true;
   }
+  if(key=='q'){
+    qDown=true;
+  }
+  if(key=='e'){
+    eDown=true;
+  }
   if(key=='d'){
     dDown=true;
-  }
-  if(key=='D'){
-    DDown=true;
   }
   if(key=='w'){
     wDown=true;
@@ -107,25 +107,29 @@ void mousePressed(){
   bullet.display();
 }
 void keyReleased(){
-  if(key=='A'){
-    ADown=false;   
+  if(key=='q'){
+    qDown=false;   
   }
-  if(key=='D'){
-    DDown=false;
+  if(key=='e'){
+    eDown=false;
   }
   if(key=='a'){
     aDown=false;
-    ADown=false;  
   }
   if(key=='d'){
     dDown=false;
-    DDown=false;
   }
   if(key=='w'){
     wDown=false;
   }
   if(key=='s'){
     sDown=false;
+  }
+  if(key=='q'){
+    qDown=false;
+  }
+  if(key=='e'){
+    eDown=false;
   }
 }
 
