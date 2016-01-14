@@ -1,6 +1,6 @@
 import damkjer.ocd.*;
 
-float x,y,z,g,rotate,rotx,roty,rotz,camDist,runs;
+float x,y,z,g,rotate,rotx,roty,rotz,camDist,runs,oldTime;
 
 boolean qDown=false;
 boolean eDown=false;
@@ -112,14 +112,17 @@ void keyPressed(){
   }
 }
 void mousePressed(){
-  Bullet[] nBullet=new Bullet[bullet.length+1];
-  for (int x=0;x<bullet.length;x++){
-   nBullet[x]=bullet[x];
+  if(System.nanoTime()-oldTime>=300000000){
+    oldTime=System.nanoTime();
+    Bullet[] nBullet=new Bullet[bullet.length+1];
+    for (int x=0;x<bullet.length;x++){
+     nBullet[x]=bullet[x];
+    }
+    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz);
+    nBullet[nBullet.length-1].display();
+    bullet=nBullet;
+    mousePressed=true;
   }
-  nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz);
-  nBullet[nBullet.length-1].display();
-  bullet=nBullet;
-  mousePressed=true;
 }
 void keyReleased(){
   if(key=='q'){

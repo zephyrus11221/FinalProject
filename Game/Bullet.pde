@@ -13,7 +13,7 @@ class Bullet{
   }
   void display(){
     
-    if(runs<200){
+    if(runs<150){
     translate(width+x,height+y,1000+z);
     rotateX(rotx);  
     rotateY(roty);  
