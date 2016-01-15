@@ -1,10 +1,12 @@
 class Arena{
   float arenaW,arenaH,arenaL;
+  Arena(float w,float h,float l){
+    arenaW=w;
+     arenaH=h;
+     arenaL=l;
+  }
   void display(){
      stroke(255,0,0);
-     arenaW=2*width;
-     arenaH=height;
-     arenaL=2000;
     beginShape();
  vertex(0, 0, 0);
  vertex(arenaW,0, 0);

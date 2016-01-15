@@ -1,6 +1,17 @@
 import damkjer.ocd.*;
 
-float x,y,z,g,rotate,rotx,roty,rotz,camDist,runs,oldTime;
+float x,y,z,g,rotx,roty,rotz,camDist,runs,oldTime;
+
+float screenX=1280;
+float screenY=720;
+
+float arenaW=2*screenX;
+float arenaH=screenY;
+float arenaL=2000;
+
+float velocity=8;
+
+float rotate=PI/100;
 
 boolean qDown=false;
 boolean eDown=false;
@@ -29,23 +40,25 @@ void draw() {
       0, -300, 500+camDist, 
       0,-200,0
        );
-       camera1.circle(PI/100*runs);
+       camera1.circle(rotate*runs);
        camera1.feed();
   rotx = (mouseY/100.0);
   roty = (mouseX/100.0);
-  rotz = 0*PI/36;
-// camera(mouseX+x, mouseY+y, (height/2) / tan(PI/6), x+width/2, y+  height/2, z, 0, 1, 0);
-  
-  translate(-width-x, -height-y,-1000-z);
+  rotz= 0;
+ 
+  translate(-arenaW/2-x, -arenaH-y,-arenaL/2-z);
+
   strokeWeight(4);
-//  rotateY(rotate);
- Arena arena=new Arena();
+
+ Arena arena=new Arena(arenaW,arenaH,arenaL);
  arena.display();
- if(aDown==true&&x>-width+50){ 
-   x-=8;
+ if(aDown==true){ 
+   x-=velocity*cos(rotate*runs);
+   z+=velocity*sin(rotate*runs);
  }
- if(dDown==true&&x<width-50){
-   x+=8;
+ if(dDown==true){
+   x+=velocity*cos(rotate*runs);
+   z-=velocity*sin(rotate*runs);
  }
  if(qDown==true){ 
    runs+=1;
@@ -53,11 +66,13 @@ void draw() {
  if(eDown==true){
    runs-=1;
  }
- if(wDown==true&&z>-1000+50){
-   z-=8;
+ if(wDown==true){
+   x+=velocity*sin(-rotate*runs);
+   z-=velocity*cos(-rotate*runs);
  }
- if(sDown==true&&z<1000-50){
-   z+=8;
+ if(sDown==true){
+   x-=velocity*sin(-rotate*runs);
+   z+=velocity*cos(-rotate*runs);
  }
  if(spaceDown==true&&y<=0){
    y-=10;
@@ -72,8 +87,20 @@ void draw() {
    bullet[x].display();
    }
  }
-  translate(width+x,height+y,1000+z);
-  
+ if(arenaL/2+z>arenaL){
+    z=arenaL/2;
+  }
+  if(arenaL/2+z<0){
+    z=-arenaL/2;
+  }
+  if(arenaW/2+x>arenaW){
+    x=arenaW/2;
+  }
+  if(arenaW/2+x<0){
+    x=-arenaW/2;
+  }
+
+  translate(arenaW/2+x,arenaH+y,arenaL/2+z);
  if(y>0){
    g=0;
    y=0;
@@ -118,7 +145,7 @@ void mousePressed(){
     for (int x=0;x<bullet.length;x++){
      nBullet[x]=bullet[x];
     }
-    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz);
+    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL);
     nBullet[nBullet.length-1].display();
     bullet=nBullet;
     mousePressed=true;
