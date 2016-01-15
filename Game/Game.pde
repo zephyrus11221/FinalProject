@@ -5,6 +5,10 @@ float x,y,z,g,rotx,roty,rotz,camDist,runs,oldTime;
 float screenX=1280;
 float screenY=720;
 
+int stage;
+PImage startscreen;
+PFont title;
+
 float arenaW=2*screenX;
 float arenaH=screenY;
 float arenaL=2000;
@@ -29,13 +33,30 @@ Camera camera1;
 
 void setup() {
   size(1280, 720, P3D);
-
+  stage = 1;
+  startscreen = loadImage("start.jpg");
+  image(startscreen, 0, 0, 1280, 720);
+  title = createFont("font", 1000, true);
 }
 
 
 
 void draw() {
+  if (stage==1){
+    background(0,0,0);
+    image(startscreen,0,0,1280,720);
+    textAlign(CENTER);
+    fill(0,0,0);
+    textSize(36);
+    text("BotBlast", 500, 450);
+    text("Press Enter/Return to begin", 500, 480);
+    if (key==ENTER){
+        stage=2;
+    }
+  }
+  if (stage==2){
   background(0);
+  fill(255,255,255);
    camera1 = new Camera(this,
       0, -300, 500+camDist, 
       0,-200,0
@@ -113,7 +134,7 @@ void draw() {
   
   Player player=new Player();
   player.display();
-   
+  }
 }
 void keyPressed(){
   if(key=='a'){
