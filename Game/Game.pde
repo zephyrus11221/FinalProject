@@ -160,14 +160,20 @@ void keyPressed(){
   }
 }
 void mousePressed(){
-  if(System.nanoTime()-oldTime>=300000000){
+  if(System.nanoTime()-oldTime>=500000000){
     oldTime=System.nanoTime();
-    Bullet[] nBullet=new Bullet[bullet.length+1];
-    for (int x=0;x<bullet.length;x++){
-     nBullet[x]=bullet[x];
+    Bullet[] nBullet;
+    if(bullet.length<7){
+      nBullet=new Bullet[bullet.length+1];
     }
-    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs);
-    nBullet[nBullet.length-1].display();
+    else{
+      nBullet=new Bullet[7];
+    }
+    for (int x=0;x<bullet.length;x++){
+     nBullet[nBullet.length-x-1]=bullet[x];
+    }
+    nBullet[0]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs);
+    nBullet[0].display();
     bullet=nBullet;
     mousePressed=true;
   }
