@@ -106,7 +106,7 @@ void draw() {
    y=0;
    spaceDown=false;
  }
-
+  rotateY(rotate*runs);
   rotateX(rotx);  
   rotateY(roty);  
   rotateZ(rotz);
@@ -145,7 +145,7 @@ void mousePressed(){
     for (int x=0;x<bullet.length;x++){
      nBullet[x]=bullet[x];
     }
-    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL);
+    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs);
     nBullet[nBullet.length-1].display();
     bullet=nBullet;
     mousePressed=true;
