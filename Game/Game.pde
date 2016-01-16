@@ -5,6 +5,8 @@ float x,y,z,g,rotx,roty,rotz,camDist,runs,oldTime;
 float screenX=1280;
 float screenY=720;
 
+int oldBullet=0;
+
 int stage;
 PImage startscreen;
 PFont title;
@@ -73,29 +75,29 @@ void draw() {
 
  Arena arena=new Arena(arenaW,arenaH,arenaL);
  arena.display();
- if(aDown==true){ 
+ if(aDown){ 
    x-=velocity*cos(rotate*runs);
    z+=velocity*sin(rotate*runs);
  }
- if(dDown==true){
+ if(dDown){
    x+=velocity*cos(rotate*runs);
    z-=velocity*sin(rotate*runs);
  }
- if(qDown==true){ 
+ if(qDown){ 
    runs+=1;
  }
- if(eDown==true){
+ if(eDown){
    runs-=1;
  }
- if(wDown==true){
+ if(wDown){
    x+=velocity*sin(-rotate*runs);
    z-=velocity*cos(-rotate*runs);
  }
- if(sDown==true){
+ if(sDown){
    x-=velocity*sin(-rotate*runs);
    z+=velocity*cos(-rotate*runs);
  }
- if(spaceDown==true&&y<=0){
+ if(spaceDown&&y<=0){
    y-=10;
    g+=.2;
  }
@@ -160,15 +162,26 @@ void keyPressed(){
   }
 }
 void mousePressed(){
-  if(System.nanoTime()-oldTime>=300000000){
+  if(System.nanoTime()-oldTime>=400000000){
     oldTime=System.nanoTime();
-    Bullet[] nBullet=new Bullet[bullet.length+1];
+    Bullet[] nBullet;
+    if(bullet.length<10){
+      nBullet=new Bullet[bullet.length+1];
+    }
+    else{
+      nBullet=new Bullet[10];
+    }
     for (int x=0;x<bullet.length;x++){
      nBullet[x]=bullet[x];
     }
-    nBullet[nBullet.length-1]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs);
-    nBullet[nBullet.length-1].display();
+    nBullet[oldBullet]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs,spaceDown,aDown,dDown,sDown,wDown,velocity);
     bullet=nBullet;
+    if(oldBullet==9){
+      oldBullet=0;
+    }
+    else{
+      oldBullet+=1;
+    }
     mousePressed=true;
   }
 }
