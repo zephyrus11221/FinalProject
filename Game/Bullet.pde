@@ -30,11 +30,11 @@ class Bullet{
   bY=0;
   bZ=0;
     if(runs<200){
-      if(spaceDown){
+      /*if(spaceDown){
        y-=10;
      } 
      g+=.02;
-     y+=g;
+     y+=g;*/
     translate(arenaW/2+x,arenaH+y,arenaL/2+z);
     rotateY(rotate*runs2);
     rotateX(rotx);  
@@ -105,9 +105,11 @@ class Bullet{
     old=0;
     
     old+=bX;
-    bX=-bY*sin(rotz)+bX*cos(rotz);
-    bY=old*sin(rotz)+bY*cos(rotz);
+    bX=-bY*sin(-rotz)+bX*cos(-rotz);
+    bY=old*sin(-rotz)+bY*cos(-rotz);
     old=0;
+   if(cos(-rotate*runs2)!=0)
+    bY/=cos(-rotate*runs2);
     
     bX+=arenaW/2+x;
     bY+=arenaH+y;

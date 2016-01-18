@@ -32,7 +32,7 @@ boolean spawnEnemy = true;
 Bullet[] bullet=new Bullet[0];
 
 
-int eNum = 1;
+int eNum = 5;
 int curEnemy = 0;
 Enemy[] enemy=new Enemy[eNum];
 
@@ -62,7 +62,7 @@ void draw() {
   }
   if (stage==2){
   background(0);
-  //fill(255,255,255);
+  fill(255,255,255);
    camera1 = new Camera(this,
       0, -300, 500+camDist, 
       0,-200,0
@@ -82,20 +82,20 @@ void draw() {
  
  if (curEnemy<eNum){
    for (int x=0; x<enemy.length;x++){
-     enemy[x] = new Enemy();
+     enemy[x] = new Enemy(arenaW,arenaH,arenaL,-750*eNum/2+750*x);
      curEnemy++;
    }
  }
 
-   for (int x=0; x<enemy.length;x++){
-     enemy[x].display();
+   for (int a=0; a<enemy.length;a++){
+     enemy[a].display(x,y,z);
      for (int y=0; y<bullet.length;y++){
-       if(enemy[x].checkCollision(bullet[y])){
+       if(enemy[a].checkCollision(bullet[y])){
          print("a");
          Enemy nEnemy[]=new Enemy[enemy.length-1];
-         arrayCopy(enemy,nEnemy,x);
+         arrayCopy(enemy,nEnemy,a);
          if(x!=enemy.length-1){
-           arrayCopy(enemy,x+1,nEnemy,x,enemy.length-x-1);
+           arrayCopy(enemy,a+1,nEnemy,a,enemy.length-a-1);
          }
          enemy=nEnemy;
          y=bullet.length;
