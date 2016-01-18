@@ -27,8 +27,13 @@ boolean wDown=false;
 boolean sDown=false;
 boolean spaceDown=false;
 boolean mousePressed=false;
+boolean spawnEnemy = true;
 
 Bullet[] bullet=new Bullet[0];
+
+Enemy[] enemy=new Enemy[0];
+int eNum = 4;
+int curEnemy = 0;
 
 Camera camera1;
 
@@ -40,8 +45,6 @@ void setup() {
   image(startscreen, 0, 0, 1280, 720);
   title = createFont("font", 1000, true);
 }
-
-
 
 void draw() {
   if (stage==1){
@@ -75,6 +78,20 @@ void draw() {
 
  Arena arena=new Arena(arenaW,arenaH,arenaL);
  arena.display();
+ 
+ if (System.currentTimeMillis()>=60000 && curEnemy<eNum){
+   for (int x=0; x<enemy.length;x++){
+     enemy[x] = new Enemy();
+     enemy[x].display();
+     curEnemy++;
+   }
+ }
+ if (System.currentTimeMillis()>=60000){
+   for (int x=0; x<enemy.length;x++){
+     enemy[x].display();
+   }
+ }
+ 
  if(aDown){ 
    x-=velocity*cos(rotate*runs);
    z+=velocity*sin(rotate*runs);
