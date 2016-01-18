@@ -31,9 +31,10 @@ boolean spawnEnemy = true;
 
 Bullet[] bullet=new Bullet[0];
 
-Enemy[] enemy=new Enemy[0];
-int eNum = 4;
+
+int eNum = 1;
 int curEnemy = 0;
+Enemy[] enemy=new Enemy[eNum];
 
 Camera camera1;
 
@@ -61,7 +62,7 @@ void draw() {
   }
   if (stage==2){
   background(0);
-  fill(255,255,255);
+  //fill(255,255,255);
    camera1 = new Camera(this,
       0, -300, 500+camDist, 
       0,-200,0
@@ -79,18 +80,29 @@ void draw() {
  Arena arena=new Arena(arenaW,arenaH,arenaL);
  arena.display();
  
- if (System.currentTimeMillis()>=60000 && curEnemy<eNum){
+ if (curEnemy<eNum){
    for (int x=0; x<enemy.length;x++){
      enemy[x] = new Enemy();
-     enemy[x].display();
      curEnemy++;
    }
  }
- if (System.currentTimeMillis()>=60000){
+
    for (int x=0; x<enemy.length;x++){
      enemy[x].display();
+     for (int y=0; y<bullet.length;y++){
+       if(enemy[x].checkCollision(bullet[y])){
+         print("a");
+         Enemy nEnemy[]=new Enemy[enemy.length-1];
+         arrayCopy(enemy,nEnemy,x);
+         if(x!=enemy.length-1){
+           arrayCopy(enemy,x+1,nEnemy,x,enemy.length-x-1);
+         }
+         enemy=nEnemy;
+         y=bullet.length;
+       }
+     }
    }
- }
+ 
  
  if(aDown){ 
    x-=velocity*cos(rotate*runs);
@@ -153,6 +165,7 @@ void draw() {
   
   Player player=new Player();
   player.display();
+  
   }
 }
 void keyPressed(){
