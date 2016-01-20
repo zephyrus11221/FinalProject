@@ -32,7 +32,7 @@ boolean spawnEnemy = true;
 Bullet[] bullet=new Bullet[0];
 
 
-int eNum = 5;
+int eNum = 1;
 int curEnemy = 0;
 Enemy[] enemy=new Enemy[eNum];
 
@@ -91,7 +91,6 @@ void draw() {
      enemy[a].display(x,y,z);
      for (int y=0; y<bullet.length;y++){
        if(enemy[a].checkCollision(bullet[y])){
-         print("a");
          Enemy nEnemy[]=new Enemy[enemy.length-1];
          arrayCopy(enemy,nEnemy,a);
          if(x!=enemy.length-1){

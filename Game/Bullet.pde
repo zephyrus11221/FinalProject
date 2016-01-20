@@ -5,6 +5,13 @@ class Bullet{
   float x,y,z,rotx,roty,rotz,rotate,runs2,bX,bY,bZ,old;
    float arenaW,arenaH,arenaL;
    boolean dDown,aDown,wDown,sDown,spaceDown;
+   float targetX,targetY,targetZ,bulletType;
+   Bullet(float tX,float tY,float tZ,int bType){
+     targetX=tX;
+     targetY=tY;
+     targetZ=tZ;
+     bulletType=bType;
+   }
   Bullet(float playerX,float playerY,float playerZ,float rotateX,float rotateY,float rotateZ,float w,float h,float l,float r,float r2,boolean downSpace,boolean downA,boolean downD,boolean downS,boolean downW,float v){
     x=playerX;
     y=playerY;
@@ -23,8 +30,10 @@ class Bullet{
    sDown=downS;
    velocity=v;
    spaceDown=downSpace;
+   bulletType=0;
   }
   void display(){
+    if(bulletType==0){
   old=0;
   bX=0;
   bY=0;
@@ -114,6 +123,15 @@ class Bullet{
     bX+=arenaW/2+x;
     bY+=arenaH+y;
     bZ+=arenaL/2+z;
+    }
+    }
+    if(bulletType==1){
+      translate(targetX/50*runs,targetY/50*runs,targetZ/50*runs);
+      stroke(255,0,255);
+      sphere(10);
+      translate(-targetX/50*runs,-targetY/50*runs,-targetZ/50*runs);
+      bX=targetX/50*runs;
+      runs+=1;
     }
   }
   float getBX(){
