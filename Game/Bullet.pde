@@ -6,11 +6,15 @@ class Bullet{
    float arenaW,arenaH,arenaL;
    boolean dDown,aDown,wDown,sDown,spaceDown;
    float targetX,targetY,targetZ,bulletType;
-   Bullet(float tX,float tY,float tZ,int bType){
+   float enemyX,enemyY,enemyZ;
+   Bullet(float tX,float tY,float tZ,float eX, float eY,float eZ,int bType){
      targetX=tX;
      targetY=tY;
      targetZ=tZ;
      bulletType=bType;
+     enemyX=eX;
+     enemyY=eY;
+     enemyZ=eZ;
    }
   Bullet(float playerX,float playerY,float playerZ,float rotateX,float rotateY,float rotateZ,float w,float h,float l,float r,float r2,boolean downSpace,boolean downA,boolean downD,boolean downS,boolean downW,float v){
     x=playerX;
@@ -130,7 +134,9 @@ class Bullet{
       stroke(255,0,255);
       sphere(10);
       translate(-targetX/50*runs,-targetY/50*runs,-targetZ/50*runs);
-      bX=targetX/50*runs;
+      bX=targetX/50*runs+enemyX;
+      bY=targetY/50*runs+enemyY;
+      bZ=targetZ/50*runs+enemyZ;
       runs+=1;
     }
   }

@@ -164,8 +164,9 @@ void draw() {
   
   Player player=new Player();
   for (int a=0; a<enemy.length;a++){
-   if(player.checkCollision(enemy[a].getBullet()))
+   if(player.checkCollision(enemy[a].getBullet(),arenaW/2+x,arenaH+y,arenaL/2+z)){ 
     stage=1;
+   }
   }
   player.display();
   
