@@ -5,7 +5,7 @@ class Enemy{
   float oldTime;
   float x,y,z;
   boolean sight = true;
-  Bullet b;
+  Bullet b=new Bullet(0,0,0,1);
 float timeOffSet;
   Enemy(float w,float h,float l,float tOS){
      stroke(random(255),random(255),random(255));
@@ -16,11 +16,11 @@ float timeOffSet;
      eX = random(arenaW);
  eY = random(arenaH);
  eZ = random(arenaL);
+
   }
   void display(float x,float y,float z){
     translate(eX, eY, eZ);
     sphere(50);
-    
     if (sight == true && millis()-oldTime>=4000+timeOffSet){
       oldTime=millis();
       
@@ -48,5 +48,8 @@ float timeOffSet;
             return true;       
     }
     return false;
+  }
+  Bullet getBullet(){
+    return b;
   }
 }

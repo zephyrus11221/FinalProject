@@ -32,7 +32,7 @@ boolean spawnEnemy = true;
 Bullet[] bullet=new Bullet[0];
 
 
-int eNum = 1;
+int eNum = 2;
 int curEnemy = 0;
 Enemy[] enemy=new Enemy[eNum];
 
@@ -163,6 +163,10 @@ void draw() {
   rotateZ(rotz);
   
   Player player=new Player();
+  for (int a=0; a<enemy.length;a++){
+   if(player.checkCollision(enemy[a].getBullet()))
+    stage=1;
+  }
   player.display();
   
   }
