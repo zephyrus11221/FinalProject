@@ -36,7 +36,7 @@ int eNum = 2;
 int curEnemy = 0;
 Enemy[] enemy=new Enemy[eNum];
 
-Camera camera1;
+Camera camera1, camera2;
 
 
 void setup() {
@@ -49,18 +49,23 @@ void setup() {
 
 void draw() {
   if (stage==1){
+    camera2 = new Camera(this, 0, 0, 500, 0, 0 ,0);
+    camera2.feed();
     background(0,0,0);
-    image(startscreen,0,0,1280,720);
+    image(startscreen,-640,-360,1280,720);
     textAlign(CENTER);
     fill(0,0,0);
     textSize(36);
-    text("BotBlast", 500, 450);
-    text("Press Enter/Return to begin", 500, 480);
+    text("BotBlast", -140, -90);
+    text("Press Enter/Return to begin", -140, 0);
     if (key==ENTER){
         stage=2;
     }
   }
   if (stage==2){
+    if (key=='p'){
+       stage=1;
+    }
   background(0);
   fill(255,255,255);
    camera1 = new Camera(this,
