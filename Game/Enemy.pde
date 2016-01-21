@@ -24,9 +24,9 @@ float timeOffSet;
     if (sight == true && millis()-oldTime>=4000+timeOffSet){
       oldTime=millis();
       
-      targetX=arenaW/2+x+random(100)-50;
-      targetY=arenaH+y+random(100)-50;
-      targetZ=arenaL/2+z+random(100)-50;
+      targetX=arenaW/2+x+random(50)-25;
+      targetY=arenaH+y+random(50)-25;
+      targetZ=arenaL/2+z+random(50)-25;
       
       b=new Bullet(targetX-eX,targetY-eY,targetZ-eZ,eX,eY,eZ,1);
       

@@ -30,7 +30,7 @@ boolean mousePressed=false;
 boolean spawnEnemy = true;
 
 Bullet[] bullet=new Bullet[0];
-
+int bNum=6;
 
 int eNum = 2;
 int curEnemy = 0;
@@ -170,6 +170,8 @@ void draw() {
   Player player=new Player();
   for (int a=0; a<enemy.length;a++){
    if(player.checkCollision(enemy[a].getBullet(),arenaW/2+x,arenaH+y,arenaL/2+z)){ 
+    reInit();
+    a=enemy.length;
     stage=1;
    }
   }
@@ -177,6 +179,19 @@ void draw() {
   
   }
 }
+
+void reInit(){
+  bullet = new Bullet[0];
+  oldBullet=0;
+  key='w';
+  x=0;
+  y=0;
+  z=0;
+  curEnemy=0;
+  runs=0;
+  enemy= new Enemy[eNum];
+}
+
 void keyPressed(){
   if(key=='a'){
     aDown=true;
@@ -201,21 +216,21 @@ void keyPressed(){
   }
 }
 void mousePressed(){
-  if(System.nanoTime()-oldTime>=400000000){
+  if(System.nanoTime()-oldTime>=800000000){
     oldTime=System.nanoTime();
     Bullet[] nBullet;
-    if(bullet.length<10){
+    if(bullet.length<bNum){
       nBullet=new Bullet[bullet.length+1];
     }
     else{
-      nBullet=new Bullet[10];
+      nBullet=new Bullet[bNum];
     }
     for (int x=0;x<bullet.length;x++){
      nBullet[x]=bullet[x];
     }
     nBullet[oldBullet]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs,spaceDown,aDown,dDown,sDown,wDown,velocity);
     bullet=nBullet;
-    if(oldBullet==9){
+    if(oldBullet==bNum-1){
       oldBullet=0;
     }
     else{

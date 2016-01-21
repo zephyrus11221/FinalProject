@@ -16,9 +16,13 @@ Day 2: Enemy bullets now have collision with and kill the player. Death causes t
 
 Bugs: Player bullets have poor collision detection
 
-Enemy bullets have velocities directly proportional to the player's distance from the enemy.
-
 Goals: Fix Player bullet collision detection.
 Add an options section of the menu.
+
+-------------------------------------------------------------
+
+Day 3: Main Menu now works completely. Enemies are more accurate.
+
+Bugs: Player bullets have poor collision detection
 
 -------------------------------------------------------------

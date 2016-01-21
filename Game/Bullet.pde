@@ -2,7 +2,7 @@ class Bullet{
   float zVelocity=15;
   float runs,velocity;
   float g=0;
-  float x,y,z,rotx,roty,rotz,rotate,runs2,bX,bY,bZ,old;
+  float x,y,z,rotx,roty,rotz,rotate,runs2,bX,bY,bZ,old = 0;
    float arenaW,arenaH,arenaL;
    boolean dDown,aDown,wDown,sDown,spaceDown;
    float targetX,targetY,targetZ,bulletType;
