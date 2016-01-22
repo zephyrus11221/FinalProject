@@ -1,11 +1,12 @@
 import damkjer.ocd.*;
 
-float x,y,z,g,rotx,roty,rotz,camDist,runs,oldTime;
+float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldT;
 
 float screenX=1280;
 float screenY=720;
 
 int oldBullet=0;
+int fireTime=0;
 
 int stage;
 PImage startscreen;
@@ -32,7 +33,7 @@ boolean spawnEnemy = true;
 Bullet[] bullet=new Bullet[0];
 int bNum=6;
 
-int eNum = 2;
+int eNum = 1;
 int curEnemy = 0;
 Enemy[] enemy=new Enemy[eNum];
 
@@ -48,139 +49,146 @@ void setup() {
 }
 
 void draw() {
-  if (stage==1){
-    camera2 = new Camera(this, 0, 0, 500, 0, 0 ,0);
+  if (stage==1) {
+    camera2 = new Camera(this, 0, 0, 500, 0, 0, 0);
     camera2.feed();
-    background(0,0,0);
-    image(startscreen,-640,-360,1280,720);
+    background(0, 0, 0);
+    image(startscreen, -640, -360, 1280, 720);
     textAlign(CENTER);
-    fill(0,0,0);
+    fill(0, 0, 0);
     textSize(36);
     text("BotBlast", -140, -90);
     text("Press Enter/Return to begin", -140, 0);
-    if (key==ENTER){
-        stage=2;
+    if (key==ENTER) {
+      stage=2;
     }
   }
-  if (stage==2){
-    if (key=='p'){
-       stage=1;
+  if (stage==2) {
+    if (key=='p') {
+      stage=1;
     }
-  background(0);
-  fill(255,255,255);
-   camera1 = new Camera(this,
+    background(0);
+    fill(255, 255, 255);
+    camera1 = new Camera(this, 
       0, -300, 500+camDist, 
-      0,-200,0
-       );
-       camera1.circle(rotate*runs);
-       camera1.feed();
-  rotx = (mouseY/100.0);
-  roty = (mouseX/100.0);
-  rotz= 0;
- 
-  translate(-arenaW/2-x, -arenaH-y,-arenaL/2-z);
+      0, -200, 0
+      );
+    camera1.circle(rotate*runs);
+    camera1.feed();
+    rotx = (mouseY/100.0);
+    roty = (mouseX/100.0);
+    rotz= 0;
 
-  strokeWeight(4);
+    translate(-arenaW/2-x, -arenaH-y, -arenaL/2-z);
 
- Arena arena=new Arena(arenaW,arenaH,arenaL);
- arena.display();
- 
- if (curEnemy<eNum){
-   for (int x=0; x<enemy.length;x++){
-     enemy[x] = new Enemy(arenaW,arenaH,arenaL,-750*eNum/2+750*x);
-     curEnemy++;
-   }
- }
+    strokeWeight(4);
 
-   for (int a=0; a<enemy.length;a++){
-     enemy[a].display(x,y,z);
-     for (int y=0; y<bullet.length;y++){
-       if(enemy[a].checkCollision(bullet[y])){
-         Enemy nEnemy[]=new Enemy[enemy.length-1];
-         arrayCopy(enemy,nEnemy,a);
-         if(x!=enemy.length-1){
-           arrayCopy(enemy,a+1,nEnemy,a,enemy.length-a-1);
-         }
-         enemy=nEnemy;
-         y=bullet.length;
-       }
-     }
-   }
- 
- 
- if(aDown){ 
-   x-=velocity*cos(rotate*runs);
-   z+=velocity*sin(rotate*runs);
- }
- if(dDown){
-   x+=velocity*cos(rotate*runs);
-   z-=velocity*sin(rotate*runs);
- }
- if(qDown){ 
-   runs+=1;
- }
- if(eDown){
-   runs-=1;
- }
- if(wDown){
-   x+=velocity*sin(-rotate*runs);
-   z-=velocity*cos(-rotate*runs);
- }
- if(sDown){
-   x-=velocity*sin(-rotate*runs);
-   z+=velocity*cos(-rotate*runs);
- }
- if(spaceDown&&y<=0){
-   y-=10;
-   g+=.2;
- }
- if(y<0){
-   y+=g;
- }
- //rotateY(-rotate);
- if(mousePressed){
-   for (int x=0;x<bullet.length;x++){
-   bullet[x].display();
-   }
- }
- if(arenaL/2+z>arenaL){
-    z=arenaL/2;
-  }
-  if(arenaL/2+z<0){
-    z=-arenaL/2;
-  }
-  if(arenaW/2+x>arenaW){
-    x=arenaW/2;
-  }
-  if(arenaW/2+x<0){
-    x=-arenaW/2;
-  }
+    Arena arena=new Arena(arenaW, arenaH, arenaL);
+    arena.display();
 
-  translate(arenaW/2+x,arenaH+y,arenaL/2+z);
- if(y>0){
-   g=0;
-   y=0;
-   spaceDown=false;
- }
-  rotateY(rotate*runs);
-  rotateX(rotx);  
-  rotateY(roty);  
-  rotateZ(rotz);
-  
-  Player player=new Player();
-  for (int a=0; a<enemy.length;a++){
-   if(player.checkCollision(enemy[a].getBullet(),arenaW/2+x,arenaH+y,arenaL/2+z)){ 
-    reInit();
-    a=enemy.length;
-    stage=1;
-   }
-  }
-  player.display();
-  
+    if (curEnemy<eNum) {
+      for (int x=0; x<enemy.length; x++) {
+        enemy[x] = new Enemy(arenaW, arenaH, arenaL, -750*eNum/2+750*x);
+        curEnemy++;
+      }
+    }
+
+    for (int a=0; a<enemy.length; a++) {
+      enemy[a].display(x, y, z);
+      for (int y=0; y<bullet.length; y++) {
+        if (enemy[a].checkCollision(bullet[y])) {
+          Enemy nEnemy[]=new Enemy[enemy.length-1];
+          arrayCopy(enemy, nEnemy, a);
+          if (x!=enemy.length-1) {
+            arrayCopy(enemy, a+1, nEnemy, a, enemy.length-a-1);
+          }
+          enemy=nEnemy;
+          y=bullet.length;
+        }
+      }
+    }
+
+
+    if (aDown) { 
+      x-=velocity*cos(rotate*runs);
+      z+=velocity*sin(rotate*runs);
+    }
+    if (dDown) {
+      x+=velocity*cos(rotate*runs);
+      z-=velocity*sin(rotate*runs);
+    }
+    if (qDown) { 
+      runs+=1;
+    }
+    if (eDown) {
+      runs-=1;
+    }
+    if (wDown) {
+      x+=velocity*sin(-rotate*runs);
+      z-=velocity*cos(-rotate*runs);
+    }
+    if (sDown) {
+      x-=velocity*sin(-rotate*runs);
+      z+=velocity*cos(-rotate*runs);
+    }
+    if (spaceDown&&y<=0) {
+      y-=10;
+      g+=.2;
+    }
+    if (y<0) {
+      y+=g;
+    }
+    //rotateY(-rotate);
+    if (mousePressed) {
+      for (int x=0; x<bullet.length; x++) {
+        bullet[x].display();
+      }
+    }
+    if (arenaL/2+z>arenaL) {
+      z=arenaL/2;
+    }
+    if (arenaL/2+z<0) {
+      z=-arenaL/2;
+    }
+    if (arenaW/2+x>arenaW) {
+      x=arenaW/2;
+    }
+    if (arenaW/2+x<0) {
+      x=-arenaW/2;
+    }
+
+    translate(arenaW/2+x, arenaH+y, arenaL/2+z);
+    if (y>0) {
+      g=0;
+      y=0;
+      spaceDown=false;
+    }
+    rotateY(rotate*runs);
+    rotateX(rotx);  
+    rotateY(roty);  
+    rotateZ(rotz);
+
+    Player player=new Player();
+    /*if (millis()-oldT>40) {
+      oldT=millis();
+
+      for (int a=0; a<enemy.length; a++) {
+        if (player.checkCollision(enemy[a].getBullet(), arenaW/2+x, arenaH+y, arenaL/2+z)) { 
+          reInit();
+          a=enemy.length;
+          stage=1;
+        }
+      }
+    }*/
+    player.display();
+    /*if (enemy.length==0) { 
+      reInit();
+      stage=1;
+    }*/
   }
 }
 
-void reInit(){
+void reInit() {
   bullet = new Bullet[0];
   oldBullet=0;
   key='w';
@@ -192,76 +200,74 @@ void reInit(){
   enemy= new Enemy[eNum];
 }
 
-void keyPressed(){
-  if(key=='a'){
+void keyPressed() {
+  if (key=='a') {
     aDown=true;
   }
-  if(key=='q'){
+  if (key=='q') {
     qDown=true;
   }
-  if(key=='e'){
+  if (key=='e') {
     eDown=true;
   }
-  if(key=='d'){
+  if (key=='d') {
     dDown=true;
   }
-  if(key=='w'){
+  if (key=='w') {
     wDown=true;
   }
-  if(key=='s'){
+  if (key=='s') {
     sDown=true;
   }
-  if(key==' '){
+  if (key==' ') {
     spaceDown=true;
   }
 }
-void mousePressed(){
-  if(System.nanoTime()-oldTime>=800000000){
+void mousePressed() {
+  if (System.nanoTime()-oldTime>=fireTime) {
     oldTime=System.nanoTime();
     Bullet[] nBullet;
-    if(bullet.length<bNum){
+    if (bullet.length<bNum) {
       nBullet=new Bullet[bullet.length+1];
-    }
-    else{
+    } else {
       nBullet=new Bullet[bNum];
     }
-    for (int x=0;x<bullet.length;x++){
-     nBullet[x]=bullet[x];
+    for (int x=0; x<bullet.length; x++) {
+      nBullet[x]=bullet[x];
     }
-    nBullet[oldBullet]=new Bullet(x,y,z,rotx,roty,rotz,arenaW,arenaH,arenaL,rotate,runs,spaceDown,aDown,dDown,sDown,wDown,velocity);
+    nBullet[oldBullet]=new Bullet(x, y, z, rotx, roty, rotz, arenaW, arenaH, arenaL, rotate, runs, spaceDown, aDown, dDown, sDown, wDown, velocity);
     bullet=nBullet;
-    if(oldBullet==bNum-1){
+    if (oldBullet==bNum-1) {
       oldBullet=0;
-    }
-    else{
+    } else {
       oldBullet+=1;
     }
     mousePressed=true;
   }
 }
-void keyReleased(){
-  if(key=='q'){
-    qDown=false;   
-  }
-  if(key=='e'){
-    eDown=false;
-  }
-  if(key=='a'){
-    aDown=false;
-  }
-  if(key=='d'){
-    dDown=false;
-  }
-  if(key=='w'){
-    wDown=false;
-  }
-  if(key=='s'){
-    sDown=false;
-  }
-  if(key=='q'){
+void keyReleased() {
+  if (key=='q') {
     qDown=false;
   }
-  if(key=='e'){
+  if (key=='e') {
+    eDown=false;
+  }
+  if (key=='a') {
+    aDown=false;
+  }
+  if (key=='d') {
+    dDown=false;
+  }
+  if (key=='w') {
+    wDown=false;
+  }
+  if (key=='s') {
+    sDown=false;
+  }
+  if (key=='q') {
+    qDown=false;
+  }
+  if (key=='e') {
     eDown=false;
   }
 }
