@@ -8,7 +8,6 @@ class Enemy {
   Bullet b=new Bullet(0, 0, 0, 0, 0, 0, 1);
   float timeOffSet;
   Enemy(float w, float h, float l, float tOS) {
-    stroke(random(255), random(255), random(255));
     arenaW=w;
     arenaH=h;
     arenaL=l;
@@ -20,7 +19,7 @@ class Enemy {
   void display(float x, float y, float z) {
     translate(eX, eY, eZ);
     sphere(50);
-    if (sight == true && millis()-oldTime>=4000+timeOffSet) {
+    if (sight == true && millis()-oldTime>timeOffSet) {
       oldTime=millis();
 
       targetX=arenaW/2+x+random(50)-25;
@@ -36,10 +35,6 @@ class Enemy {
     line(eX, eY, eZ, targetX, targetY, targetZ);
   }
   boolean checkCollision(Bullet b) {
-    stroke(0, 255, 255);
-    translate(b.getBX(), b.getBY(), b.getBZ());
-    sphere(10);
-    translate(-b.getBX(), -b.getBY(), -b.getBZ());
     if (60>=sqrt((eX-b.getBX())*(eX-b.getBX())+
       (eY-b.getBY())*(eY-b.getBY())+
       (eZ-b.getBZ())*(eZ-b.getBZ()))) {

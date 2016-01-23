@@ -6,15 +6,16 @@ float screenX=1280;
 float screenY=720;
 
 int oldBullet=0;
-int fireTime=0;
+int fireTime=600000000;
+int collisionCheck=30;
 
 int stage;
 PImage startscreen;
 PFont title;
 
-float arenaW=2*screenX;
+float arenaW=4*screenX;
 float arenaH=screenY;
-float arenaL=2000;
+float arenaL=4000;
 
 float velocity=8;
 
@@ -31,7 +32,7 @@ boolean mousePressed=false;
 boolean spawnEnemy = true;
 
 Bullet[] bullet=new Bullet[0];
-int bNum=6;
+int bNum=10;
 
 int eNum = 1;
 int curEnemy = 0;
@@ -57,6 +58,7 @@ void draw() {
     textAlign(CENTER);
     fill(0, 0, 0);
     textSize(36);
+    text("Start Level "+eNum, -140, -180);
     text("BotBlast", -140, -90);
     text("Press Enter/Return to begin", -140, 0);
     if (key==ENTER) {
@@ -88,22 +90,24 @@ void draw() {
 
     if (curEnemy<eNum) {
       for (int x=0; x<enemy.length; x++) {
-        enemy[x] = new Enemy(arenaW, arenaH, arenaL, -750*eNum/2+750*x);
+        enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x);
         curEnemy++;
       }
     }
-
     for (int a=0; a<enemy.length; a++) {
       enemy[a].display(x, y, z);
-      for (int y=0; y<bullet.length; y++) {
-        if (enemy[a].checkCollision(bullet[y])) {
-          Enemy nEnemy[]=new Enemy[enemy.length-1];
-          arrayCopy(enemy, nEnemy, a);
-          if (x!=enemy.length-1) {
-            arrayCopy(enemy, a+1, nEnemy, a, enemy.length-a-1);
+      if (millis()-oldT>collisionCheck) {
+        oldT=millis();
+        for (int y=0; y<bullet.length; y++) {
+          if (enemy[a].checkCollision(bullet[y])) {
+            Enemy nEnemy[]=new Enemy[enemy.length-1];
+            arrayCopy(enemy, nEnemy, a);
+            if (x!=enemy.length-1) {
+              arrayCopy(enemy, a+1, nEnemy, a, enemy.length-a-1);
+            }
+            enemy=nEnemy;
+            y=bullet.length;
           }
-          enemy=nEnemy;
-          y=bullet.length;
         }
       }
     }
@@ -169,22 +173,23 @@ void draw() {
     rotateZ(rotz);
 
     Player player=new Player();
-    /*if (millis()-oldT>40) {
+    if (millis()-oldT>collisionCheck) {
       oldT=millis();
 
       for (int a=0; a<enemy.length; a++) {
         if (player.checkCollision(enemy[a].getBullet(), arenaW/2+x, arenaH+y, arenaL/2+z)) { 
+          eNum=0;
           reInit();
           a=enemy.length;
           stage=1;
         }
       }
-    }*/
+    }
     player.display();
-    /*if (enemy.length==0) { 
+    if (enemy.length==0) { 
       reInit();
       stage=1;
-    }*/
+    }
   }
 }
 
@@ -197,6 +202,7 @@ void reInit() {
   z=0;
   curEnemy=0;
   runs=0;
+  eNum+=1;
   enemy= new Enemy[eNum];
 }
 
@@ -235,7 +241,7 @@ void mousePressed() {
     for (int x=0; x<bullet.length; x++) {
       nBullet[x]=bullet[x];
     }
-    nBullet[oldBullet]=new Bullet(x, y, z, rotx, roty, rotz, arenaW, arenaH, arenaL, rotate, runs, spaceDown, aDown, dDown, sDown, wDown, velocity);
+    nBullet[oldBullet]=new Bullet(x, y, z, rotx, roty, rotz, arenaW, arenaH, arenaL, rotate, runs);
     bullet=nBullet;
     if (oldBullet==bNum-1) {
       oldBullet=0;
