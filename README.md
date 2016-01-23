@@ -26,3 +26,14 @@ Day 3: Main Menu now works completely. Enemies are more accurate.
 Bugs: Player bullets have poor collision detection
 
 -------------------------------------------------------------
+
+Day 4: Bullets collision works,but now aim is off.
+
+Bugs: Player bullets have poor aim
+
+-------------------------------------------------------------
+Day 5: Levels and about 1/3 of the lag.
+
+Bugs: Player bullets have poor aim
+
+-------------------------------------------------------------
