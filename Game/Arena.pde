@@ -8,7 +8,6 @@ class Arena {
     texture=tex;
   }
   void display() {
-    stroke(255, 0, 0);
     beginShape();
     texture(texture);
     vertex(0, 0, 0,0,0);

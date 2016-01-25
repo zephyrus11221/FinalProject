@@ -1,4 +1,9 @@
 import damkjer.ocd.*;
+import ddf.minim.*;
+
+AudioPlayer player;
+Minim minim;//audio context
+
 PImage wall, floor;
 float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldTP, oldTE;
 
@@ -42,7 +47,7 @@ Camera camera1, camera2;
 
 void setup() {
   size(1280, 720, P3D);
-  wall = loadImage("wall.jpg");
+  wall = loadImage("wall2.jpg");
   textureMode(NORMAL);
   stage = 1;
   startscreen = loadImage("start.jpg");
@@ -50,6 +55,9 @@ void setup() {
   title = createFont("font", 500, true);
   fill(255);
   stroke(color(44, 48, 32));
+  minim = new Minim(this);
+  player = minim.loadFile("KillerBlood-Something_Acid.mp3", 2048);
+  player.play();
 }
 
 void draw() {
@@ -70,7 +78,7 @@ void draw() {
   }
   if (stage==2) {
     background(0);
-  noStroke();
+    noStroke();
   
     if (key=='p') {
       stage=1;
