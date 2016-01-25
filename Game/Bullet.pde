@@ -58,15 +58,15 @@ class Bullet {
        bX=-bY*sin(-rotz)+bX*cos(-rotz);
        bY=old*sin(-rotz)+bY*cos(-rotz);
        old=0;*/
-  
-      if (cos(-rotate*runs2)!=0){
+
+      if (cos(-rotate*runs2)!=0) {
         bY/=cos(-rotate*runs2);
       }
 
       bX+=arenaW/2+x;
       bY+=arenaH+y;
       bZ+=arenaL/2+z;
-      
+
       translate(bX, bY, bZ);
       stroke(0, 0, 255);
       sphere(10);

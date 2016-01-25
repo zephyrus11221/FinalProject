@@ -49,7 +49,7 @@ void setup() {
   image(startscreen, 0, 0, 1280, 720);
   title = createFont("font", 500, true);
   fill(255);
-  stroke(color(44,48,32));
+  stroke(color(44, 48, 32));
 }
 
 void draw() {
@@ -69,12 +69,14 @@ void draw() {
     }
   }
   if (stage==2) {
-    noStroke();
+    background(0);
+  noStroke();
+ scale(90);
+  TexturedCube(wall);
+  
     if (key=='p') {
       stage=1;
     }
-    scale(900);
-    background(0);
     fill(255, 255, 255);
     camera1 = new Camera(this, 
       0, -300, 500+camDist, 
@@ -92,9 +94,8 @@ void draw() {
 
     Arena arena=new Arena(arenaW, arenaH, arenaL);
     arena.display();
-    
-    TexturedCube(wall);
-    
+
+
     if (curEnemy<eNum) {
       for (int x=0; x<enemy.length; x++) {
         enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x);
@@ -292,42 +293,51 @@ void mouseWheel(MouseEvent e) {
 void TexturedCube(PImage tex) {
   beginShape(QUADS);
   texture(tex);
+
+  // Given one texture and six faces, we can easily set up the uv coordinates
+  // such that four of the faces tile "perfectly" along either u or v, but the other
+  // two faces cannot be so aligned.  This code tiles "along" u, "around" the X/Z faces
+  // and fudges the Y faces - the Y faces are arbitrarily aligned such that a
+  // rotation along the X axis will put the "top" of either texture at the "top"
+  // of the screen, but is not otherwised aligned with the X/Z faces. (This
+  // just affects what type of symmetry is required if you need seamless
+  // tiling all the way around the cube)
   
   // +Z "front" face
-  vertex(-500, -500,  500, 0, 0);
-  vertex( 500, -500,  500, 500, 0);
-  vertex( 500,  500,  500, 500, 500);
-  vertex(-500,  500,  500, 0, 500);
+  vertex(-1, -1,  1, 0, 0);
+  vertex( 1, -1,  1, 1, 0);
+  vertex( 1,  1,  1, 1, 1);
+  vertex(-1,  1,  1, 0, 1);
 
   // -Z "back" face
-  vertex( 500, -500, -500, 0, 0);
-  vertex(-500, -500, -500, 500, 0);
-  vertex(-500,  500, -500, 500, 500);
-  vertex( 500,  500, -500, 0, 500);
+  vertex( 1, -1, -1, 0, 0);
+  vertex(-1, -1, -1, 1, 0);
+  vertex(-1,  1, -1, 1, 1);
+  vertex( 1,  1, -1, 0, 1);
 
   // +Y "bottom" face
-  vertex(-500,  500,  500, 0, 0);
-  vertex( 500,  500,  500, 500, 0);
-  vertex( 500,  500, -500, 500, 500);
-  vertex(-500,  500, -500, 0, 500);
+  vertex(-1,  1,  1, 0, 0);
+  vertex( 1,  1,  1, 1, 0);
+  vertex( 1,  1, -1, 1, 1);
+  vertex(-1,  1, -1, 0, 1);
 
   // -Y "top" face
-  vertex(-500, -500, -500, 0, 0);
-  vertex( 500, -500, -500, 500, 0);
-  vertex( 500, -500,  500, 500, 500);
-  vertex(-500, -500,  500, 0, 500);
+  vertex(-1, -1, -1, 0, 0);
+  vertex( 1, -1, -1, 1, 0);
+  vertex( 1, -1,  1, 1, 1);
+  vertex(-1, -1,  1, 0, 1);
 
   // +X "right" face
-  vertex( 500, -500,  500, 0, 0);
-  vertex( 500, -500, -500, 500, 0);
-  vertex( 500,  500, -500, 500, 500);
-  vertex( 500,  500,  500, 0, 500);
+  vertex( 1, -1,  1, 0, 0);
+  vertex( 1, -1, -1, 1, 0);
+  vertex( 1,  1, -1, 1, 1);
+  vertex( 1,  1,  1, 0, 1);
 
   // -X "left" face
-  vertex(-500, -500, -500, 0, 0);
-  vertex(-500, -500,  500, 500, 0);
-  vertex(-500,  500,  500, 500, 500);
-  vertex(-500,  500, -500, 0, 500);
+  vertex(-1, -1, -1, 0, 0);
+  vertex(-1, -1,  1, 1, 0);
+  vertex(-1,  1,  1, 1, 1);
+  vertex(-1,  1, -1, 0, 1);
 
   endShape();
 }
