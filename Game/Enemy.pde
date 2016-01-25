@@ -35,7 +35,7 @@ class Enemy {
     line(eX, eY, eZ, targetX, targetY, targetZ);
   }
   boolean checkCollision(Bullet b) {
-    if (60>=sqrt((eX-b.getBX())*(eX-b.getBX())+
+    if (65>sqrt((eX-b.getBX())*(eX-b.getBX())+
       (eY-b.getBY())*(eY-b.getBY())+
       (eZ-b.getBZ())*(eZ-b.getBZ()))) {
       return true;
