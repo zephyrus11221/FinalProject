@@ -1,6 +1,6 @@
 import damkjer.ocd.*;
-
-float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldT;
+PImage wall, floor;
+float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldTP, oldTE;
 
 float screenX=1280;
 float screenY=720;
@@ -40,13 +40,16 @@ Enemy[] enemy=new Enemy[eNum];
 
 Camera camera1, camera2;
 
-
 void setup() {
   size(1280, 720, P3D);
+  wall = loadImage("wall.jpg");
+  textureMode(NORMAL);
   stage = 1;
   startscreen = loadImage("start.jpg");
   image(startscreen, 0, 0, 1280, 720);
-  title = createFont("font", 1000, true);
+  title = createFont("font", 500, true);
+  fill(255);
+  stroke(color(44,48,32));
 }
 
 void draw() {
@@ -66,9 +69,11 @@ void draw() {
     }
   }
   if (stage==2) {
+    noStroke();
     if (key=='p') {
       stage=1;
     }
+    scale(900);
     background(0);
     fill(255, 255, 255);
     camera1 = new Camera(this, 
@@ -87,7 +92,9 @@ void draw() {
 
     Arena arena=new Arena(arenaW, arenaH, arenaL);
     arena.display();
-
+    
+    TexturedCube(wall);
+    
     if (curEnemy<eNum) {
       for (int x=0; x<enemy.length; x++) {
         enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x);
@@ -96,8 +103,8 @@ void draw() {
     }
     for (int a=0; a<enemy.length; a++) {
       enemy[a].display(x, y, z);
-      if (millis()-oldT>collisionCheck) {
-        oldT=millis();
+      if (millis()-oldTP>collisionCheck) {
+        oldTP=millis();
         for (int y=0; y<bullet.length; y++) {
           if (enemy[a].checkCollision(bullet[y])) {
             Enemy nEnemy[]=new Enemy[enemy.length-1];
@@ -173,8 +180,8 @@ void draw() {
     rotateZ(rotz);
 
     Player player=new Player();
-    if (millis()-oldT>collisionCheck) {
-      oldT=millis();
+    if (millis()-oldTE>collisionCheck) {
+      oldTE=millis();
 
       for (int a=0; a<enemy.length; a++) {
         if (player.checkCollision(enemy[a].getBullet(), arenaW/2+x, arenaH+y, arenaL/2+z)) { 
@@ -278,7 +285,49 @@ void keyReleased() {
   }
 }
 
-
 void mouseWheel(MouseEvent e) {
   camDist+=e.getCount()*10;
+}
+
+void TexturedCube(PImage tex) {
+  beginShape(QUADS);
+  texture(tex);
+  
+  // +Z "front" face
+  vertex(-500, -500,  500, 0, 0);
+  vertex( 500, -500,  500, 500, 0);
+  vertex( 500,  500,  500, 500, 500);
+  vertex(-500,  500,  500, 0, 500);
+
+  // -Z "back" face
+  vertex( 500, -500, -500, 0, 0);
+  vertex(-500, -500, -500, 500, 0);
+  vertex(-500,  500, -500, 500, 500);
+  vertex( 500,  500, -500, 0, 500);
+
+  // +Y "bottom" face
+  vertex(-500,  500,  500, 0, 0);
+  vertex( 500,  500,  500, 500, 0);
+  vertex( 500,  500, -500, 500, 500);
+  vertex(-500,  500, -500, 0, 500);
+
+  // -Y "top" face
+  vertex(-500, -500, -500, 0, 0);
+  vertex( 500, -500, -500, 500, 0);
+  vertex( 500, -500,  500, 500, 500);
+  vertex(-500, -500,  500, 0, 500);
+
+  // +X "right" face
+  vertex( 500, -500,  500, 0, 0);
+  vertex( 500, -500, -500, 500, 0);
+  vertex( 500,  500, -500, 500, 500);
+  vertex( 500,  500,  500, 0, 500);
+
+  // -X "left" face
+  vertex(-500, -500, -500, 0, 0);
+  vertex(-500, -500,  500, 500, 0);
+  vertex(-500,  500,  500, 500, 500);
+  vertex(-500,  500, -500, 0, 500);
+
+  endShape();
 }
