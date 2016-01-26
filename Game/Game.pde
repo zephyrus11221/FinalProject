@@ -91,10 +91,11 @@ void draw() {
     text("Use E and Q to rotate the camera left and right", 30, -90);
     text("Move the mouse to aim with the sight and click to shoot", 30, -50);
     text("Press space to jump", 30, -10);
-    text("Press F to pause the game", 30, 30);
-    text("Press R to begin the game", 30, 100);
-    text("TIP: The menu is your downtime.", 30, 140);
-    text("Enemies begin shooting as soon as you begin.", 30, 180);
+    text("Use the Scroll Wheel to zoom in and out", 30, 30);
+    text("Press F to pause the game", 30, 70);
+    text("Press R to begin the game", 30, 140);
+    text("TIP: The menu is your downtime.", 30, 180);
+    text("Enemies begin shooting as soon as you begin.", 30, 220);
     if (key=='r'){
       stage=2;
     }
