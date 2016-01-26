@@ -7,8 +7,12 @@ Minim minim;//audio context
 
 PImage wall, floor;
 PShape s;
+PShape s2;
 
-float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldTP, oldTE;
+float y=-40;
+float x, z;
+
+float g, rotx, roty, rotz, camDist, runs, oldTime, oldTP, oldTE;
 
 float screenX=1280;
 float screenY=720;
@@ -60,7 +64,8 @@ void setup() {
   minim = new Minim(this);
   player = minim.loadFile("KillerBlood-Something_Acid.mp3", 2048);
   player.loop();
-  s = loadShape("eraser.obj");
+  s = loadShape("robot.obj");
+  s2 = loadShape("enemy.obj");
 }
 
 void draw() {
@@ -130,7 +135,7 @@ void draw() {
 
     if (curEnemy<eNum) {
       for (int x=0; x<enemy.length; x++) {
-        enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x);
+        enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x,s2);
         curEnemy++;
       }
     }
@@ -172,11 +177,11 @@ void draw() {
       x-=velocity*sin(-rotate*runs);
       z+=velocity*cos(-rotate*runs);
     }
-    if (spaceDown&&y<=0) {
+    if (spaceDown&&y<=-40) {
       y-=10;
       g+=.2;
     }
-    if (y<0) {
+    if (y<-40) {
       y+=g;
     }
     //rotateY(-rotate);
@@ -220,7 +225,7 @@ void draw() {
         stage=1;
       }
     }
-     shape(s);
+    shape(s,0,-40,80,80);
     player.display();
     if (enemy.length==0) { 
       reInit();
@@ -234,7 +239,7 @@ void reInit() {
   oldBullet=0;
 
   x=0;
-  y=0;
+  y=-40;
   z=0;
   curEnemy=0;
   runs=0;
