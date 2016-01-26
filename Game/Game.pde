@@ -6,6 +6,8 @@ AudioPlayer player;
 Minim minim;//audio context
 
 PImage wall, floor;
+PShape s;
+
 float x, y, z, g, rotx, roty, rotz, camDist, runs, oldTime, oldTP, oldTE;
 
 float screenX=1280;
@@ -58,6 +60,7 @@ void setup() {
   minim = new Minim(this);
   player = minim.loadFile("KillerBlood-Something_Acid.mp3", 2048);
   player.loop();
+  s = loadShape("eraser.obj");
 }
 
 void draw() {
@@ -207,7 +210,7 @@ void draw() {
     rotateZ(rotz);
 
     Player player=new Player();
-
+    
 
     for (int a=0; a<enemy.length; a++) {
       if (player.checkCollision(enemy[a].getBullet(), arenaW/2+x, arenaH+y, arenaL/2+z)) { 
@@ -217,7 +220,7 @@ void draw() {
         stage=1;
       }
     }
-
+     shape(s);
     player.display();
     if (enemy.length==0) { 
       reInit();
