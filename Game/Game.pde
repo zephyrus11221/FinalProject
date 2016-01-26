@@ -7,7 +7,6 @@ Minim minim;//audio context
 
 PImage wall, floor;
 PShape s;
-PShape s2;
 
 float y=-40;
 float x, z;
@@ -43,7 +42,7 @@ boolean mousePressed=false;
 boolean spawnEnemy = true;
 
 Bullet[] bullet=new Bullet[0];
-int bNum=5;
+int bNum=3;
 
 int eNum = 1;
 int curEnemy = 0;
@@ -65,7 +64,6 @@ void setup() {
   player = minim.loadFile("KillerBlood-Something_Acid.mp3", 2048);
   player.loop();
   s = loadShape("robot.obj");
-  s2 = loadShape("enemy.obj");
 }
 
 void draw() {
@@ -84,27 +82,28 @@ void draw() {
     if (key=='r') {
       stage=2;
     }
-    if (key=='i'){
+    if (key=='i') {
       stage=3;
     }
   }
-  if (stage==3){
+  if (stage==3) {
     camera2 = new Camera(this, 0, 0, 500, 0, 0, 0);
     camera2.feed();
     background(240, 240, 240);
     textAlign(CENTER);
     fill(0, 0, 0);
     textSize(30);
-    text("Use the W, A, S, and D keys to move around", 30, -130);
-    text("Use E and Q to rotate the camera left and right", 30, -90);
-    text("Move the mouse to aim with the sight and click to shoot", 30, -50);
-    text("Press space to jump", 30, -10);
-    text("Use the Scroll Wheel to zoom in and out", 30, 30);
-    text("Press F to pause the game", 30, 70);
-    text("Press R to begin the game", 30, 140);
-    text("TIP: The menu is your downtime.", 30, 180);
-    text("Enemies begin shooting as soon as you begin.", 30, 220);
-    if (key=='r'){
+    text("Use the W, A, S, and D keys to move around", 30, -170);
+    text("Use E and Q to rotate the camera left and right", 30, -130);
+    text("Move the mouse to aim with the sight and click to shoot", 30, -90);
+    text("Press space to jump", 30, -50);
+    text("Use the Scroll Wheel to zoom in and out", 30, -10);
+    text("Press F to pause the game", 30, 30);
+    text("Press R to begin the game", 30, 70);
+    text("TIP: The menu is your downtime.", 30, 140);
+    text("Enemies begin shooting as soon as you begin.", 30, 180);
+    text("TIP: Maximum of Three Bullets At a Time", 30, 220);
+    if (key=='r') {
       stage=2;
     }
   }
@@ -135,7 +134,7 @@ void draw() {
 
     if (curEnemy<eNum) {
       for (int x=0; x<enemy.length; x++) {
-        enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x,s2);
+        enemy[x] = new Enemy(arenaW, arenaH, arenaL, 2000+750*x);
         curEnemy++;
       }
     }
@@ -184,7 +183,7 @@ void draw() {
     if (y<-40) {
       y+=g;
     }
-    //rotateY(-rotate);
+
     if (mousePressed) {
       for (int x=0; x<bullet.length; x++) {
         bullet[x].display();
@@ -204,9 +203,9 @@ void draw() {
     }
 
     translate(arenaW/2+x, arenaH+y, arenaL/2+z);
-    if (y>0) {
+    if (y>-40) {
       g=0;
-      y=0;
+      y=-40;
       spaceDown=false;
     }
     rotateY(rotate*runs);
@@ -215,7 +214,7 @@ void draw() {
     rotateZ(rotz);
 
     Player player=new Player();
-    
+
 
     for (int a=0; a<enemy.length; a++) {
       if (player.checkCollision(enemy[a].getBullet(), arenaW/2+x, arenaH+y, arenaL/2+z)) { 
@@ -225,7 +224,8 @@ void draw() {
         stage=1;
       }
     }
-    shape(s,0,-40,80,80);
+    s.setFill(color(255, 180, 0));
+    shape(s, 0, -40, 80, 80);
     player.display();
     if (enemy.length==0) { 
       reInit();
