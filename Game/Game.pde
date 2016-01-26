@@ -72,7 +72,30 @@ void draw() {
     text("Start Level "+eNum, 60, -130);
     text("BotBlast", 60, -30);
     text("Press R to begin", 60, 60);
+    text("Press I to view instructions", 60, 150);
     if (key=='r') {
+      stage=2;
+    }
+    if (key=='i'){
+      stage=3;
+    }
+  }
+  if (stage==3){
+    camera2 = new Camera(this, 0, 0, 500, 0, 0, 0);
+    camera2.feed();
+    background(240, 240, 240);
+    textAlign(CENTER);
+    fill(0, 0, 0);
+    textSize(30);
+    text("Use the W, A, S, and D keys to move around", 30, -130);
+    text("Use E and Q to rotate the camera left and right", 30, -90);
+    text("Move the mouse to aim with the sight and click to shoot", 30, -50);
+    text("Press space to jump", 30, -10);
+    text("Press F to pause the game", 30, 30);
+    text("Press R to begin the game", 30, 100);
+    text("TIP: The menu is your downtime.", 30, 140);
+    text("Enemies begin shooting as soon as you begin.", 30, 180);
+    if (key=='r'){
       stage=2;
     }
   }
